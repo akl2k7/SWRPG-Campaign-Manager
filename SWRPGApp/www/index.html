@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+        <!--
+        Customize this policy to fit your own app's needs. For more guidance, see:
+            https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
+        Some notes:
+            * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+                * Enable inline JS: add 'unsafe-inline' to default-src
+        -->
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Bootstrap and its dependencies -->
+        <script src="js/jquery-3.2.1.min.js"></script><!--jquery-->
+        <script src="js/popper.js"></script><!--popper -->
+        <script src="js/bootstrap.min.js"></script><!--bootstrap js-->
+        <link rel="stylesheet" href="css/bootstrap.min.css"/><!--bootstrap css-->
+
+        <title>SWRPG Campaign Manager</title>
+    </head>
+    <body>
+
+        <!-- The main app, default screen is the Campaign Creator unless it loads data-->
+        <div id="app" class='container'>
+            <h1>SWRPG Campaign Manager</h1>
+
+            <!-- Navigation bar -->
+            <nav class="navbar navbar-expand-lg navbar-light bg-faded">
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle Navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <div class="navbar-nav">
+                        <a class="nav-item nav-link" v-bind:class="{active: currentScreen === 'campaigns'}" href="#" v-on:click="changeScreens('campaigns')">Campaigns</a>
+                        <a class="nav-item nav-link" href="#" v-bind:class="{active: currentScreen === 'characters'}" v-on:click="changeScreens('characters')">Characters</a>
+                        <a class="nav-item nav-link" href="#" v-on:click="changeScreens('vehicles')" v-bind:class="{active: currentScreen === 'vehicles'}">Vehicles</a>
+                        <a class="nav-item nav-link" href="#" v-on:click="changeScreens('obligation')" v-bind:class="{active: currentScreen === 'obligation'}">Obligation/Duty/Morality</a>
+                        <a class="nav-item nav-link" href="#" v-on:click="changeScreens('options')" v-bind:class="{active: currentScreen === 'options'}">Other Options</a>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Main body of app-->
+            <campaign-editor v-bind:campaigns="campaigns" v-if="currentScreen === 'campaigns'"></campaign-editor>
+            <character-editor v-if="currentScreen === 'characters'"></character-editor>
+            <vehicle-editor v-if="currentScreen === 'vehicles'"></vehicle-editor>
+        </div>  
+        
+
+        <!-- Vue and its dependencies -->
+        <script src="js/campaign.js"></script>
+        <script src="js/vue.js"></script>
+        <script src="js/characterEditor.js"></script>
+        <script src="js/vehicleEditor.js"></script>
+        <script src="js/app.js"></script>
+    </body>
+</html>
